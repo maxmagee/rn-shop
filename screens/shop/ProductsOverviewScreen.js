@@ -1,13 +1,35 @@
 import React from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import PropTypes from "prop-types";
+import { FlatList, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 
-const renderProduct = (itemData) => {
-  return <Text>{itemData.item.title}</Text>;
-};
+import ProductItem from "../../components/shop/ProductItem";
 
 const ProductsOverviewScreen = (props) => {
+  const { navigation } = props;
+
   const products = useSelector((state) => state.products.availableProducts);
+
+  const viewDetailsHandler = () => {
+    console.log("View Details Pressed");
+  };
+
+  const addToCartHandler = () => {
+    console.log("Add to Cart Pressed");
+  };
+
+  const renderProduct = (itemData) => {
+    const { item } = itemData;
+    return (
+      <ProductItem
+        imageUrl={item.imageUrl}
+        price={item.price}
+        title={item.title}
+        onViewDetails={viewDetailsHandler}
+        onAddToCart={addToCartHandler}
+      />
+    );
+  };
 
   return <FlatList data={products} keyExtractor={(item) => item.id} renderItem={renderProduct} />;
 };
@@ -15,6 +37,14 @@ const ProductsOverviewScreen = (props) => {
 ProductsOverviewScreen.navigationOptions = {
   headerTitle: "All Products",
 };
+
+ProductsOverviewScreen.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+ProductsOverviewScreen.defaultProps = {};
 
 const styles = StyleSheet.create({
   screen: {},
