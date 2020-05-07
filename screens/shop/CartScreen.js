@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Button, FlatList, StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
 
@@ -8,9 +7,7 @@ import DefaultText from "../../components/ui/DefaultText";
 
 import colors from "../../constants/colors";
 
-const CartScreen = (props) => {
-  const { navigation } = props;
-
+const CartScreen = () => {
   const renderCartItem = (itemData) => {
     const { item } = itemData;
     return <CartItem cartItem={item} />;
@@ -56,11 +53,7 @@ const CartScreen = (props) => {
   );
 };
 
-CartScreen.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired,
-  }).isRequired,
-};
+CartScreen.propTypes = {};
 
 CartScreen.defaultProps = {};
 
@@ -70,7 +63,6 @@ const styles = StyleSheet.create({
   },
   screen: {
     flex: 1,
-    // margin: 20,
   },
   summary: {
     alignItems: "center",
