@@ -6,8 +6,8 @@ import CartItem from "../../components/shop/CartItem";
 import DefaultText from "../../components/ui/DefaultText";
 
 import colors from "../../constants/colors";
-import { clearCart } from "../../store/actions/cart";
-import { addOrder } from "../../store/actions/orders";
+import * as cartActions from "../../store/actions/cart";
+import * as orderActions from "../../store/actions/orders";
 
 const CartScreen = () => {
   const renderCartItem = (itemData) => {
@@ -36,8 +36,8 @@ const CartScreen = () => {
   });
 
   const orderNowHandler = () => {
-    dispatch(addOrder(cartItems, cartTotalAmount));
-    dispatch(clearCart());
+    dispatch(orderActions.addOrder(cartItems, cartTotalAmount));
+    dispatch(cartActions.clearCart());
   };
 
   return (
