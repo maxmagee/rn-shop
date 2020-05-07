@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Button, Image, ScrollView, StyleSheet, View } from "react-native";
 import { useDispatch } from "react-redux";
 
-import DefaultText from "../../components/DefaultText";
+import DefaultText from "../../components/ui/DefaultText";
 
 import * as cartActions from "../../store/actions/cart";
 
