@@ -10,8 +10,8 @@ const ProductsOverviewScreen = (props) => {
 
   const products = useSelector((state) => state.products.availableProducts);
 
-  const viewDetailsHandler = () => {
-    console.log("View Details Pressed");
+  const viewDetailsHandler = (product) => {
+    navigation.navigate("ProductDetail", { product });
   };
 
   const addToCartHandler = () => {
@@ -25,7 +25,7 @@ const ProductsOverviewScreen = (props) => {
         imageUrl={item.imageUrl}
         price={item.price}
         title={item.title}
-        onViewDetails={viewDetailsHandler}
+        onViewDetails={viewDetailsHandler.bind(null, item)}
         onAddToCart={addToCartHandler}
       />
     );
