@@ -3,6 +3,7 @@ import { createStackNavigator } from "react-navigation-stack";
 
 import { Platform } from "react-native";
 
+import CartScreen from "../screens/shop/CartScreen";
 import ProductDetailScreen from "../screens/shop/ProductDetailScreen";
 import ProductsOverviewScreen from "../screens/shop/ProductsOverviewScreen";
 
@@ -10,6 +11,7 @@ import colors from "../constants/colors";
 
 const ProductsNavigator = createStackNavigator(
   {
+    Cart: CartScreen,
     ProductDetail: ProductDetailScreen,
     ProductsOverview: ProductsOverviewScreen,
   },
