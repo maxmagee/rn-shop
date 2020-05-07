@@ -20,11 +20,11 @@ const CartItem = (props) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.itemData}>
+      <View style={{ ...styles.itemData, ...styles.itemDataLeft }}>
         <DefaultText style={styles.quantity}>{cartItem.quantity}</DefaultText>
         <DefaultText style={styles.title}>{cartItem.productTitle}</DefaultText>
       </View>
-      <View style={styles.itemData}>
+      <View style={{ ...styles.itemData, ...styles.itemDataRight }}>
         <DefaultText style={styles.sum}>${cartItem.sum.toFixed(2)}</DefaultText>
         <TouchableOpacity onPress={removeFromCartHandler} style={styles.deleteButton}>
           <Ionicons name="ios-trash" size={23} color={colors.primary} />
@@ -59,6 +59,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     marginVertical: 10,
+  },
+  itemDataLeft: {
+    width: "60%",
+  },
+  itemDataRight: {
+    justifyContent: "flex-end",
+    width: "40%",
   },
   quantity: {
     fontFamily: "open-sans-bold",
