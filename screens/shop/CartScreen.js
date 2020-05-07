@@ -32,7 +32,7 @@ const CartScreen = (props) => {
       };
     });
 
-    return transformedCartItems.sort((a, b) => a.productId > b.productId);
+    return transformedCartItems.sort((a, b) => (a.productId > b.productId ? 1 : -1));
   });
 
   return (
