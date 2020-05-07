@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList } from "react-native";
 import { useSelector } from "react-redux";
 
 import ProductItem from "../../components/shop/ProductItem";
@@ -45,9 +45,5 @@ ProductsOverviewScreen.propTypes = {
 };
 
 ProductsOverviewScreen.defaultProps = {};
-
-const styles = StyleSheet.create({
-  screen: {},
-});
 
 export default ProductsOverviewScreen;
