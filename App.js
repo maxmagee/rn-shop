@@ -5,17 +5,23 @@ import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
+// composeWithDevTools should be removed before deploying to production
+// which is why eslint is warning about the dependency
+import { composeWithDevTools } from "redux-devtools-extension"; // eslint-disable-line
 
+import cartReducer from "./store/reducers/cart";
 import productsReducer from "./store/reducers/products";
 import ShopNavigator from "./navigation/ShopNavigator";
 
 enableScreens();
 
 const rootReducer = combineReducers({
+  cart: cartReducer,
   products: productsReducer,
 });
 
-const store = createStore(rootReducer);
+// TODO: Remove composeWithDevTools before Prod
+const store = createStore(rootReducer, composeWithDevTools());
 
 const fetchFonts = () => {
   return Font.loadAsync({

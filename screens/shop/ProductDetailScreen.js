@@ -1,17 +1,27 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Button, Image, ScrollView, StyleSheet, View } from "react-native";
+import { useDispatch } from "react-redux";
 
 import DefaultText from "../../components/DefaultText";
 
+import * as cartActions from "../../store/actions/cart";
+
 const ProductDetailScreen = (props) => {
   const { navigation } = props;
-  const { description, imageUrl, price } = navigation.getParam("product");
+  const product = navigation.getParam("product");
+  const { description, imageUrl, price } = product;
+  const dispatch = useDispatch();
+
+  const addToCartHandler = (productToAdd) => {
+    dispatch(cartActions.addToCart(productToAdd));
+  };
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <Image source={{ uri: imageUrl }} style={styles.image} />
       <View style={styles.buttonContainer}>
-        <Button title="Add to Cart" onPress={() => {}} />
+        <Button title="Add to Cart" onPress={addToCartHandler.bind(null, product)} />
       </View>
       <DefaultText style={styles.price}>${price.toFixed(2)}</DefaultText>
       <DefaultText style={styles.description}>{description}</DefaultText>
