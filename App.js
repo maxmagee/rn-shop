@@ -10,6 +10,7 @@ import * as Font from "expo-font";
 import { composeWithDevTools } from "redux-devtools-extension"; // eslint-disable-line
 
 import cartReducer from "./store/reducers/cart";
+import orderReducer from "./store/reducers/orders";
 import productsReducer from "./store/reducers/products";
 import ShopNavigator from "./navigation/ShopNavigator";
 
@@ -17,6 +18,7 @@ enableScreens();
 
 const rootReducer = combineReducers({
   cart: cartReducer,
+  orders: orderReducer,
   products: productsReducer,
 });
 

@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART } from "../actions/cart";
+import { ADD_TO_CART, REMOVE_FROM_CART, CLEAR_CART } from "../actions/cart";
 import CartItem from "../../models/cartItem";
 
 const initialState = {
@@ -35,6 +35,9 @@ export default (state = initialState, action) => {
       const newCartItem = new CartItem(1, price, title, price);
 
       return getNewState(newCartItem);
+    }
+    case CLEAR_CART: {
+      return { ...initialState };
     }
     case REMOVE_FROM_CART: {
       const updatedCartItems = { ...state.items };

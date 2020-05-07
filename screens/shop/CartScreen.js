@@ -1,11 +1,13 @@
 import React from "react";
 import { Button, FlatList, StyleSheet, View } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import CartItem from "../../components/shop/CartItem";
 import DefaultText from "../../components/ui/DefaultText";
 
 import colors from "../../constants/colors";
+import { clearCart } from "../../store/actions/cart";
+import { addOrder } from "../../store/actions/orders";
 
 const CartScreen = () => {
   const renderCartItem = (itemData) => {
@@ -13,6 +15,7 @@ const CartScreen = () => {
     return <CartItem cartItem={item} />;
   };
 
+  const dispatch = useDispatch();
   const cartTotalAmount = useSelector((state) => state.cart.totalAmount);
   const cartItems = useSelector((state) => {
     const { items } = state.cart;
@@ -32,13 +35,23 @@ const CartScreen = () => {
     return transformedCartItems.sort((a, b) => (a.productId > b.productId ? 1 : -1));
   });
 
+  const orderNowHandler = () => {
+    dispatch(addOrder(cartItems, cartTotalAmount));
+    dispatch(clearCart());
+  };
+
   return (
     <View style={styles.screen}>
       <View style={styles.summary}>
         <DefaultText style={styles.summaryText}>
           Total: <DefaultText style={styles.totalAmount}>${cartTotalAmount.toFixed(2)}</DefaultText>
         </DefaultText>
-        <Button disabled={cartItems.length === 0} color={colors.primary} title="Order Now" />
+        <Button
+          disabled={cartItems.length === 0}
+          color={colors.primary}
+          onPress={orderNowHandler}
+          title="Order Now"
+        />
       </View>
       <View>
         <FlatList
