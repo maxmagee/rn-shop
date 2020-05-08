@@ -1,22 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useDispatch } from "react-redux";
+import { StyleSheet, View } from "react-native";
 
 import DefaultText from "../ui/DefaultText";
 
-import * as cartActions from "../../store/actions/cart";
-import colors from "../../constants/colors";
-
-const CartItem = (props) => {
+const OrderItemDetail = (props) => {
   const { item } = props;
-
-  const dispatch = useDispatch();
-
-  const removeFromCartHandler = () => {
-    dispatch(cartActions.removeFromCart(item));
-  };
 
   return (
     <View style={styles.container}>
@@ -26,15 +15,12 @@ const CartItem = (props) => {
       </View>
       <View style={{ ...styles.itemData, ...styles.itemDataRight }}>
         <DefaultText style={styles.sum}>${item.sum.toFixed(2)}</DefaultText>
-        <TouchableOpacity onPress={removeFromCartHandler} style={styles.deleteButton}>
-          <Ionicons name="ios-trash" size={23} color={colors.primary} />
-        </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-CartItem.propTypes = {
+OrderItemDetail.propTypes = {
   item: PropTypes.shape({
     productTitle: PropTypes.string.isRequired,
     quantity: PropTypes.number.isRequired,
@@ -42,7 +28,7 @@ CartItem.propTypes = {
   }).isRequired,
 };
 
-CartItem.defaultProps = {};
+OrderItemDetail.defaultProps = {};
 
 const styles = StyleSheet.create({
   container: {
@@ -50,15 +36,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginHorizontal: 20,
-    paddingHorizontal: 20,
-  },
-  deleteButton: {
-    marginLeft: 20,
+    width: "100%",
   },
   itemData: {
     alignItems: "center",
     flexDirection: "row",
-    marginVertical: 10,
+    marginBottom: 10,
+    width: "100%",
   },
   itemDataLeft: {
     width: "60%",
@@ -82,4 +66,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CartItem;
+export default OrderItemDetail;

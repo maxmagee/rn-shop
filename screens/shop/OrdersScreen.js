@@ -1,11 +1,10 @@
 import React from "react";
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList } from "react-native";
 import { useSelector } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { DrawerActions } from "react-navigation-drawer";
 
 import CustomHeaderButton from "../../components/ui/CustomHeaderButton";
-import DefaultText from "../../components/ui/DefaultText";
 import OrderItem from "../../components/shop/OrderItem";
 
 const OrdersScreen = () => {
@@ -34,13 +33,5 @@ OrdersScreen.navigationOptions = (navigationData) => {
     headerTitle: "Your Orders",
   };
 };
-
-const styles = StyleSheet.create({
-  screen: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center",
-  },
-});
 
 export default OrdersScreen;

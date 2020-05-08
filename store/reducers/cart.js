@@ -24,6 +24,7 @@ export default (state = initialState, action) => {
       if (state.items[id]) {
         const updatedCartItem = new CartItem(
           state.items[id].quantity + 1,
+          id,
           price,
           title,
           state.items[id].sum + price
@@ -32,7 +33,7 @@ export default (state = initialState, action) => {
         return getNewState(updatedCartItem);
       }
 
-      const newCartItem = new CartItem(1, price, title, price);
+      const newCartItem = new CartItem(1, id, price, title, price);
 
       return getNewState(newCartItem);
     }

@@ -12,7 +12,8 @@ import * as orderActions from "../../store/actions/orders";
 const CartScreen = () => {
   const renderCartItem = (itemData) => {
     const { item } = itemData;
-    return <CartItem cartItem={item} />;
+
+    return <CartItem item={item} />;
   };
 
   const dispatch = useDispatch();
