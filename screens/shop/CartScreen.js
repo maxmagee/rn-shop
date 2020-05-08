@@ -70,6 +70,10 @@ CartScreen.propTypes = {};
 
 CartScreen.defaultProps = {};
 
+CartScreen.navigationOptions = {
+  headerTitle: "Your Cart",
+};
+
 const styles = StyleSheet.create({
   cartItems: {
     height: "100%",

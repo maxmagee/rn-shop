@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import { DrawerActions } from "react-navigation-drawer";
 
 import CustomHeaderButton from "../../components/ui/CustomHeaderButton";
 import ProductItem from "../../components/shop/ProductItem";
@@ -44,7 +45,18 @@ ProductsOverviewScreen.navigationOptions = (navigationData) => {
     navigationData.navigation.navigate("Cart");
   };
 
+  const openMenuHandler = () => {
+    navigationData.navigation.dispatch(DrawerActions.openDrawer());
+  };
+
   return {
+    headerLeft: () => {
+      return (
+        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+          <Item iconName="ios-menu" onPress={openMenuHandler} title="Menu" />
+        </HeaderButtons>
+      );
+    },
     headerRight: () => {
       return (
         <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
