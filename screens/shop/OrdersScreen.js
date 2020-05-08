@@ -14,7 +14,14 @@ const OrdersScreen = () => {
     return <OrderItem order={itemData.item} />;
   };
 
-  return <FlatList data={orders} keyExtractor={(item) => item.id} renderItem={renderOrderItem} />;
+  return (
+    <FlatList
+      style={{ paddingTop: 10 }}
+      data={orders}
+      keyExtractor={(item) => item.id}
+      renderItem={renderOrderItem}
+    />
+  );
 };
 
 OrdersScreen.navigationOptions = (navigationData) => {
