@@ -35,14 +35,17 @@ ProductItem.defaultProps = {
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    alignItems: "center",
+    alignItems: "flex-end",
+    flex: 1,
     flexDirection: "row",
-    height: "25%",
     justifyContent: "space-between",
+    paddingBottom: 10,
     paddingHorizontal: 20,
   },
   details: {
     alignItems: "center",
+    height: "15%",
+    paddingTop: 10,
   },
   image: {
     height: "100%",
@@ -51,7 +54,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    height: "60%",
+    height: "65%",
     overflow: "hidden",
     width: "100%",
   },
