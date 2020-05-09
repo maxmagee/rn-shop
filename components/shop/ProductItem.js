@@ -1,14 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-
-import colors from "../../constants/colors";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const ProductItem = (props) => {
-  const { imageUrl, onViewDetails, onAddToCart, price, title } = props;
+  const { children, imageUrl, onSelect, price, title } = props;
 
   return (
-    <TouchableOpacity onPress={onViewDetails}>
+    <TouchableOpacity onPress={onSelect}>
       <View style={styles.productContainer}>
         <View style={styles.imageContainer}>
           <Image source={{ uri: imageUrl }} style={styles.image} />
@@ -18,23 +16,22 @@ const ProductItem = (props) => {
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.price}>${price.toFixed(2)}</Text>
         </View>
-        <View style={styles.buttonContainer}>
-          <Button color={colors.primary} title="View Details" onPress={onViewDetails} />
-          <Button color={colors.primary} title="Add to Cart" onPress={onAddToCart} />
-        </View>
+        <View style={styles.buttonContainer}>{children}</View>
       </View>
     </TouchableOpacity>
   );
 };
 
 ProductItem.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   imageUrl: PropTypes.string.isRequired,
-  onAddToCart: PropTypes.func.isRequired,
-  onViewDetails: PropTypes.func.isRequired,
+  onSelect: PropTypes.func.isRequired,
   price: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
 };
-ProductItem.defaultProps = {};
+ProductItem.defaultProps = {
+  children: null,
+};
 
 const styles = StyleSheet.create({
   buttonContainer: {

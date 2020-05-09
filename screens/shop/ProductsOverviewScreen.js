@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { FlatList } from "react-native";
+import { Button, FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { DrawerActions } from "react-navigation-drawer";
@@ -9,6 +9,7 @@ import CustomHeaderButton from "../../components/ui/CustomHeaderButton";
 import ProductItem from "../../components/shop/ProductItem";
 
 import * as cartActions from "../../store/actions/cart";
+import colors from "../../constants/colors";
 
 const ProductsOverviewScreen = (props) => {
   const { navigation } = props;
@@ -26,14 +27,25 @@ const ProductsOverviewScreen = (props) => {
 
   const renderProduct = (itemData) => {
     const { item } = itemData;
+
     return (
       <ProductItem
         imageUrl={item.imageUrl}
         price={item.price}
         title={item.title}
-        onViewDetails={viewDetailsHandler.bind(null, item)}
-        onAddToCart={addToCartHandler.bind(null, item)}
-      />
+        onSelect={viewDetailsHandler.bind(null, itemData.item)}
+      >
+        <Button
+          color={colors.primary}
+          title="View Details"
+          onPress={viewDetailsHandler.bind(null, itemData.item)}
+        />
+        <Button
+          color={colors.primary}
+          title="Add to Cart"
+          onPress={addToCartHandler.bind(null, itemData.item)}
+        />
+      </ProductItem>
     );
   };
 
