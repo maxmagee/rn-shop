@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, FlatList } from "react-native";
+import { Button, FlatList, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { DrawerActions } from "react-navigation-drawer";
@@ -49,7 +49,14 @@ const ProductsOverviewScreen = (props) => {
     );
   };
 
-  return <FlatList data={products} keyExtractor={(item) => item.id} renderItem={renderProduct} />;
+  return (
+    <FlatList
+      style={styles.list}
+      data={products}
+      keyExtractor={(item) => item.id}
+      renderItem={renderProduct}
+    />
+  );
 };
 
 ProductsOverviewScreen.navigationOptions = (navigationData) => {
@@ -87,5 +94,11 @@ ProductsOverviewScreen.propTypes = {
 };
 
 ProductsOverviewScreen.defaultProps = {};
+
+const styles = StyleSheet.create({
+  list: {
+    paddingVertical: 15,
+  },
+});
 
 export default ProductsOverviewScreen;
