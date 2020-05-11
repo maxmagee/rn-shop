@@ -63,11 +63,22 @@ UserProductsScreen.navigationOptions = (navigationData) => {
     navigationData.navigation.dispatch(DrawerActions.openDrawer());
   };
 
+  const addProductHandler = () => {
+    navigationData.navigation.navigate("EditProduct");
+  };
+
   return {
     headerLeft: () => {
       return (
         <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
           <Item iconName="ios-menu" onPress={openMenuHandler} title="Menu" />
+        </HeaderButtons>
+      );
+    },
+    headerRight: () => {
+      return (
+        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+          <Item iconName="ios-add" onPress={addProductHandler} title="Add" />
         </HeaderButtons>
       );
     },

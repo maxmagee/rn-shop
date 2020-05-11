@@ -1,5 +1,5 @@
 import { ADD_TO_CART, REMOVE_FROM_CART, CLEAR_CART } from "../actions/cart";
-import { DELETE_PRODUCT } from "../actions/products";
+import { DELETE_PRODUCT, UPDATE_PRODUCT } from "../actions/products";
 import CartItem from "../../models/cartItem";
 
 const initialState = {
@@ -70,6 +70,17 @@ export default (state = initialState, action) => {
         ...state,
         items: updatedCartItems,
         totalAmount: state.totalAmount - cartItemToDelete.sum,
+      };
+    }
+    case UPDATE_PRODUCT: {
+      if (state.items[action.product.id] === undefined) return state;
+
+      const cartItemToUpdate = state.items[action.product.id];
+      cartItemToUpdate.productTitle = action.product.title;
+
+      return {
+        ...state,
+        items: { ...state.items, [action.product.id]: cartItemToUpdate },
       };
     }
     default:
