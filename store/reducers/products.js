@@ -19,17 +19,16 @@ export default (state = initialState, action) => {
       };
     }
     case UPDATE_PRODUCT: {
-      const updatedAvailableProducts = [...state.availableProducts];
-      updatedAvailableProducts[action.product.id] = action.product;
-
-      const updatedUserProducts = state.availableProducts.filter(
-        (product) => product.ownerId === "u1"
+      const indexOfProductToUpdate = state.availableProducts.indexOf(
+        (product) => product.id === action.product.id
       );
+      const updatedAvailableProducts = [...state.availableProducts];
+      updatedAvailableProducts[indexOfProductToUpdate] = action.product;
 
       return {
         ...state,
         availableProducts: updatedAvailableProducts,
-        userProducts: updatedUserProducts,
+        userProducts: updatedAvailableProducts.filter((product) => product.ownerId === "u1"),
       };
     }
     default:
