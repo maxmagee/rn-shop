@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import CustomHeaderButton from "../../components/ui/CustomHeaderButton";
 import DefaultText from "../../components/ui/DefaultText";
 import * as productActions from "../../store/actions/products";
+import Product from "../../models/product";
 
 const EditProductScreen = (props) => {
   const { navigation } = props;
@@ -23,8 +24,22 @@ const EditProductScreen = (props) => {
       product.title = title;
       product.imageUrl = imageUrl;
       product.description = description;
+
+      dispatch(productActions.updateProduct(product));
+    } else {
+      const newPriceFixed = parseFloat(price).toFixed(2);
+      const newProduct = new Product(
+        new Date().toString(),
+        "u1",
+        title,
+        imageUrl,
+        description,
+        +newPriceFixed
+      );
+
+      dispatch(productActions.addProduct(newProduct));
     }
-    dispatch(productActions.updateProduct(product));
+
     navigation.goBack();
   }, [dispatch, product, title, imageUrl, price, description]);
 
