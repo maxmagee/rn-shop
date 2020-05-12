@@ -1,7 +1,8 @@
 /* eslint-disable global-require */
 import React, { useState } from "react";
 import { enableScreens } from "react-native-screens";
-import { createStore, combineReducers } from "redux";
+import { applyMiddleware, createStore, combineReducers } from "redux";
+import reduxThunk from "redux-thunk";
 import { Provider } from "react-redux";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
@@ -22,8 +23,10 @@ const rootReducer = combineReducers({
   products: productsReducer,
 });
 
+const middleware = [reduxThunk];
+
 // TODO: Remove composeWithDevTools before Prod
-const store = createStore(rootReducer, composeWithDevTools());
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(...middleware)));
 
 const fetchFonts = () => {
   return Font.loadAsync({
