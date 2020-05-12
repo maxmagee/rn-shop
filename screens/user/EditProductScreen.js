@@ -54,7 +54,18 @@ const EditProductScreen = (props) => {
     }
 
     navigation.goBack();
-  }, [dispatch, product, title, imageUrl, price, description]);
+  }, [
+    dispatch,
+    product,
+    title,
+    imageUrl,
+    price,
+    description,
+    isTitleValid,
+    isImageUrlValid,
+    isPriceValid,
+    isDescriptionValid,
+  ]);
 
   useEffect(() => {
     navigation.setParams({ saveHandler });
