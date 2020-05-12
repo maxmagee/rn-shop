@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useReducer } from "react";
 import PropTypes from "prop-types";
-import { ScrollView, StyleSheet, TextInput, View, Alert } from "react-native";
+import { ScrollView, StyleSheet, View, Alert } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useDispatch } from "react-redux";
 
 import CustomHeaderButton from "../../components/ui/CustomHeaderButton";
-import DefaultText from "../../components/ui/DefaultText";
+import CustomTextInput from "../../components/ui/CustomTextInput";
 
 import * as productActions from "../../store/actions/products";
 import Product from "../../models/product";
@@ -127,46 +127,37 @@ const EditProductScreen = (props) => {
   return (
     <ScrollView style={styles.screen}>
       <View style={styles.form}>
-        <View style={styles.formControl}>
-          <DefaultText style={styles.label}>Title</DefaultText>
-          <TextInput
-            style={styles.input}
-            value={formState.inputValues.title}
-            onChangeText={textChangeHandler.bind(null, "title")}
+        <CustomTextInput
+          label="Title"
+          value={formState.inputValues.title}
+          autoCapitalize="sentences"
+          returnKeyType="next"
+          onChangeText={textChangeHandler.bind(null, "title")}
+        />
+        <CustomTextInput
+          label="Image URL"
+          value={formState.inputValues.imageUrl}
+          autoCapitalize="sentences"
+          returnKeyType="next"
+          onChangeText={textChangeHandler.bind(null, "imageUrl")}
+        />
+        {product ? null : (
+          <CustomTextInput
+            label="Price"
+            value={formState.inputValues.price}
             autoCapitalize="sentences"
             returnKeyType="next"
+            keyboardType="decimal-pad"
+            onChangeText={textChangeHandler.bind(null, "price")}
           />
-        </View>
-        <View style={styles.formControl}>
-          <DefaultText style={styles.label}>Image URL</DefaultText>
-          <TextInput
-            style={styles.input}
-            value={formState.inputValues.imageUrl}
-            onChangeText={textChangeHandler.bind(null, "imageUrl")}
-            returnKeyType="next"
-          />
-        </View>
-        {product ? null : (
-          <View style={styles.formControl}>
-            <DefaultText style={styles.label}>Price</DefaultText>
-            <TextInput
-              keyboardType="decimal-pad"
-              style={styles.input}
-              value={formState.inputValues.price}
-              onChangeText={textChangeHandler.bind(null, "price")}
-              returnKeyType="next"
-            />
-          </View>
         )}
-        <View style={styles.formControl}>
-          <DefaultText style={styles.label}>Description</DefaultText>
-          <TextInput
-            style={styles.input}
-            value={formState.inputValues.description}
-            onChangeText={textChangeHandler.bind(null, "description")}
-            returnKeyType="next"
-          />
-        </View>
+        <CustomTextInput
+          label="Description"
+          value={formState.inputValues.description}
+          autoCapitalize="sentences"
+          returnKeyType="next"
+          onChangeText={textChangeHandler.bind(null, "description")}
+        />
       </View>
     </ScrollView>
   );
@@ -205,19 +196,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     margin: 20,
   },
-  formControl: {
-    width: "100%",
-  },
-  input: {
-    borderBottomColor: "#ccc",
-    borderBottomWidth: 1,
-    paddingHorizontal: 2,
-    paddingVertical: 5,
-  },
-  label: {
-    fontFamily: "open-sans-bold",
-    marginVertical: 8,
-  },
+
   screen: {
     backgroundColor: "white",
   },
