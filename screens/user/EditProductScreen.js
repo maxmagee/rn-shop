@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { ScrollView, StyleSheet, TextInput, View } from "react-native";
+import { ScrollView, StyleSheet, TextInput, View, Alert } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useDispatch } from "react-redux";
 
 import CustomHeaderButton from "../../components/ui/CustomHeaderButton";
 import DefaultText from "../../components/ui/DefaultText";
+
 import * as productActions from "../../store/actions/products";
 import Product from "../../models/product";
 
@@ -19,7 +20,19 @@ const EditProductScreen = (props) => {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState(product ? product.description : "");
 
+  const [isTitleValid, setIsTitleValid] = useState(false);
+  const [isImageUrlValid, setIsImageUrlValid] = useState(false);
+  const [isPriceValid, setIsPriceValid] = useState(false);
+  const [isDescriptionValid, setIsDescriptionValid] = useState(false);
+
   const saveHandler = useCallback(() => {
+    if (!isTitleValid || !isImageUrlValid || !isPriceValid || !isDescriptionValid) {
+      Alert.alert("Invalid Input", "Please provide a valid value for each form field.", [
+        { text: "Okay" },
+      ]);
+      return;
+    }
+
     if (product) {
       product.title = title;
       product.imageUrl = imageUrl;
@@ -47,25 +60,76 @@ const EditProductScreen = (props) => {
     navigation.setParams({ saveHandler });
   }, [saveHandler]);
 
+  // Note: You can also import validate.js to help with validation
+
+  const titleChangeHandler = (text) => {
+    if (text.trim().length === 0) {
+      setIsTitleValid(false);
+    } else {
+      setIsTitleValid(true);
+    }
+    setTitle(text);
+  };
+
+  const imageChangeHandler = (text) => {
+    if (text.trim().length === 0) {
+      setIsImageUrlValid(false);
+    } else {
+      setIsImageUrlValid(true);
+    }
+    setImageUrl(text);
+  };
+
+  const priceChangeHandler = (text) => {
+    if (text.trim().length === 0 || Number.isNaN(Number(text.trim())) || Number(text.trim() < 0)) {
+      setIsPriceValid(false);
+    } else {
+      setIsPriceValid(true);
+    }
+    setPrice(text);
+  };
+
+  const descriptionChangeHandler = (text) => {
+    if (text.trim().length === 0) {
+      setIsDescriptionValid(false);
+    } else {
+      setIsDescriptionValid(true);
+    }
+    setDescription(text);
+  };
+
   return (
     <ScrollView style={styles.screen}>
       <View style={styles.form}>
         <View style={styles.formControl}>
           <DefaultText style={styles.label}>Title</DefaultText>
-          <TextInput style={styles.input} value={title} onChangeText={(text) => setTitle(text)} />
+          <TextInput
+            style={styles.input}
+            value={title}
+            onChangeText={titleChangeHandler}
+            autoCapitalize="sentences"
+            returnKeyType="next"
+          />
         </View>
         <View style={styles.formControl}>
           <DefaultText style={styles.label}>Image URL</DefaultText>
           <TextInput
             style={styles.input}
             value={imageUrl}
-            onChangeText={(text) => setImageUrl(text)}
+            onChangeText={imageChangeHandler}
+            returnKeyType="next"
           />
         </View>
         {product ? null : (
           <View style={styles.formControl}>
             <DefaultText style={styles.label}>Price</DefaultText>
-            <TextInput style={styles.input} value={price} onChangeText={(text) => setPrice(text)} />
+            <TextInput
+              keyboardType="decimal-pad"
+              style={styles.input}
+              value={price}
+              onChangeText={priceChangeHandler}
+              returnKeyType="next"
+            />
           </View>
         )}
         <View style={styles.formControl}>
@@ -73,7 +137,8 @@ const EditProductScreen = (props) => {
           <TextInput
             style={styles.input}
             value={description}
-            onChangeText={(text) => setDescription(text)}
+            onChangeText={descriptionChangeHandler}
+            returnKeyType="next"
           />
         </View>
       </View>
