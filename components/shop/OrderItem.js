@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Button, StyleSheet, View } from "react-native";
 
+import Card from "../ui/Card";
 import DefaultText from "../ui/DefaultText";
 import OrderItemDetail from "./OrderItemDetail";
 
@@ -22,7 +23,7 @@ const OrderItem = (props) => {
   };
 
   return (
-    <View style={styles.orderItem}>
+    <Card style={styles.orderItem}>
       <View style={styles.summary}>
         <DefaultText style={styles.totalAmount}>${order.totalAmount.toFixed(2)}</DefaultText>
         <DefaultText style={styles.date}>{order.readableDate}</DefaultText>
@@ -33,7 +34,7 @@ const OrderItem = (props) => {
         title={showDetails ? "Hide Details" : "Show Details"}
       />
       {renderDetails()}
-    </View>
+    </Card>
   );
 };
 
@@ -64,20 +65,9 @@ const styles = StyleSheet.create({
   },
   orderItem: {
     alignItems: "center",
-    backgroundColor: "white",
-    borderRadius: 10,
-    elevation: 5,
-    marginHorizontal: 20,
     marginVertical: 10,
     paddingHorizontal: 15,
     paddingTop: 5,
-    shadowColor: "black",
-    shadowOffset: {
-      height: 2,
-      width: 0,
-    },
-    shadowOpacity: 0.26,
-    shadowRadius: 8,
   },
   summary: {
     alignItems: "center",

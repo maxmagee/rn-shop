@@ -2,12 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
+import Card from "../ui/Card";
+
 const ProductItem = (props) => {
   const { children, imageUrl, onSelect, price, title } = props;
 
   return (
     <TouchableOpacity onPress={onSelect}>
-      <View style={styles.productContainer}>
+      <Card style={styles.productContainer}>
         <View style={styles.imageContainer}>
           <Image source={{ uri: imageUrl }} style={styles.image} />
         </View>
@@ -17,7 +19,7 @@ const ProductItem = (props) => {
           <Text style={styles.price}>${price.toFixed(2)}</Text>
         </View>
         <View style={styles.buttonContainer}>{children}</View>
-      </View>
+      </Card>
     </TouchableOpacity>
   );
 };
@@ -63,19 +65,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   productContainer: {
-    backgroundColor: "white",
-    borderRadius: 10,
-    elevation: 5,
     height: 300,
     marginBottom: 20,
-    marginHorizontal: 20,
-    shadowColor: "black",
-    shadowOffset: {
-      height: 2,
-      width: 0,
-    },
-    shadowOpacity: 0.26,
-    shadowRadius: 8,
   },
   title: {
     fontSize: 18,
