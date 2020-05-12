@@ -34,5 +34,8 @@
     "sort-keys": ["error", "asc", {"caseSensitive": true, "natural": false, "minKeys": 2}],
     "react/jsx-props-no-spreading": ["error", {"custom": "ignore"}]
   },
-  "plugins": ["prettier"]
+  "plugins": ["prettier"],
+  "globals": {
+    "fetch": false
+  }
 }
