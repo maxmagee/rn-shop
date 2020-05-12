@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, FlatList, StyleSheet, View } from "react-native";
+import { Alert, Button, FlatList, StyleSheet, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { DrawerActions } from "react-navigation-drawer";
@@ -10,7 +10,7 @@ import DefaultText from "../../components/ui/DefaultText";
 import ProductItem from "../../components/shop/ProductItem";
 
 import colors from "../../constants/colors";
-import { deleteProduct } from "../../store/actions/products";
+import * as productActions from "../../store/actions/products";
 
 const UserProductsScreen = (props) => {
   const { navigation } = props;
@@ -22,7 +22,16 @@ const UserProductsScreen = (props) => {
   };
 
   const deleteHandler = (product) => {
-    dispatch(deleteProduct(product));
+    Alert.alert("Are you sure?", "Do you really want to delete this item?", [
+      { style: "default", text: "No" },
+      {
+        onPress: () => {
+          dispatch(productActions.deleteProduct(product));
+        },
+        style: "destructive",
+        text: "Yes",
+      },
+    ]);
   };
 
   const renderUserProduct = (itemData) => {
