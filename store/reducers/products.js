@@ -2,7 +2,7 @@ import PRODUCTS from "../../data/dummy-data";
 import { DELETE_PRODUCT, UPDATE_PRODUCT, ADD_PRODUCT, SET_PRODUCTS } from "../actions/products";
 
 const initialState = {
-  availableProducts: PRODUCTS,
+  availableProducts: [],
   userProducts: PRODUCTS.filter((product) => product.ownerId === "u1"),
 };
 

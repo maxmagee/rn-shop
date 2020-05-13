@@ -42,9 +42,12 @@ export const deleteProduct = (product) => {
 export const fetchProducts = () => {
   return async (dispatch) => {
     const response = await fetch(endpoints.products);
+    if (!response.ok) {
+      throw new Error("Something went wrong!");
+    }
     const responseData = await response.json();
 
-    const products = Object.keys(responseData).map((key) => {
+    const products = Object.keys(responseData || {}).map((key) => {
       const { description, imageUrl, price, title } = responseData[key];
 
       return new Product(key, "u1", title, imageUrl, description, price);
