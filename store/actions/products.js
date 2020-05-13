@@ -1,5 +1,4 @@
-import endpoints from "../../constants/api";
-import Product from "../../models/product";
+import api from "../../api";
 
 export const ADD_PRODUCT = "ADD_PRODUCT";
 export const DELETE_PRODUCT = "DELETE_PRODUCT";
@@ -7,51 +6,30 @@ export const SET_PRODUCTS = "SET_PRODUCTS";
 export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
 
 export const addProduct = (product) => {
-  const { title, imageUrl, price, description } = product;
   return async (dispatch) => {
     // any async code you want can go here...
-    const response = await fetch(endpoints.products, {
-      body: JSON.stringify({
-        description,
-        imageUrl,
-        price,
-        title,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    });
-
-    const responseData = await response.json();
+    const productKey = await api.products.addProduct(product);
 
     dispatch({
-      product: { ...product, id: responseData.name },
+      product: { ...product, id: productKey },
       type: ADD_PRODUCT,
     });
   };
 };
 
 export const deleteProduct = (product) => {
-  return {
-    product,
-    type: DELETE_PRODUCT,
+  return async (dispatch) => {
+    await api.products.deleteProduct(product);
+    dispatch({
+      product,
+      type: DELETE_PRODUCT,
+    });
   };
 };
 
 export const fetchProducts = () => {
   return async (dispatch) => {
-    const response = await fetch(endpoints.products);
-    if (!response.ok) {
-      throw new Error("Something went wrong!");
-    }
-    const responseData = await response.json();
-
-    const products = Object.keys(responseData || {}).map((key) => {
-      const { description, imageUrl, price, title } = responseData[key];
-
-      return new Product(key, "u1", title, imageUrl, description, price);
-    });
+    const products = await api.products.fetchProducts();
 
     dispatch({
       products,
@@ -61,8 +39,12 @@ export const fetchProducts = () => {
 };
 
 export const updateProduct = (product) => {
-  return {
-    product,
-    type: UPDATE_PRODUCT,
+  return async (dispatch) => {
+    await api.products.updateProduct(product);
+
+    dispatch({
+      product,
+      type: UPDATE_PRODUCT,
+    });
   };
 };
