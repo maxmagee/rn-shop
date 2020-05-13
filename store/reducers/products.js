@@ -1,9 +1,8 @@
-import PRODUCTS from "../../data/dummy-data";
-import { DELETE_PRODUCT, UPDATE_PRODUCT, ADD_PRODUCT, SET_PRODUCTS } from "../actions/products";
+import { ADD_PRODUCT, DELETE_PRODUCT, SET_PRODUCTS, UPDATE_PRODUCT } from "../actions/products";
 
 const initialState = {
   availableProducts: [],
-  userProducts: PRODUCTS.filter((product) => product.ownerId === "u1"),
+  userProducts: [],
 };
 
 export default (state = initialState, action) => {
