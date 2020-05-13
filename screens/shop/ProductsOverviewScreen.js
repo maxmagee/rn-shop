@@ -38,6 +38,15 @@ const ProductsOverviewScreen = (props) => {
     loadProducts();
   }, [dispatch, loadProducts]);
 
+  useEffect(() => {
+    const willFocusListener = navigation.addListener("willFocus", loadProducts);
+
+    // This will run when the component is destroyed or this effect will re-run.
+    return () => {
+      willFocusListener.remove();
+    };
+  }, [loadProducts]);
+
   const viewDetailsHandler = (product) => {
     navigation.navigate("ProductDetail", { product });
   };
@@ -136,6 +145,7 @@ ProductsOverviewScreen.navigationOptions = (navigationData) => {
 
 ProductsOverviewScreen.propTypes = {
   navigation: PropTypes.shape({
+    addListener: PropTypes.func.isRequired,
     navigate: PropTypes.func.isRequired,
   }).isRequired,
 };
