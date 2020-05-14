@@ -44,7 +44,7 @@ const CartScreen = () => {
     await dispatch(orderActions.addOrder(newOrder));
     dispatch(cartActions.clearCart());
     setIsUploading(false);
-  }, [cartItems, cartTotalAmount]);
+  }, [setIsUploading, dispatch, cartItems, cartTotalAmount]);
 
   return (
     <View style={styles.screen}>

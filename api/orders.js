@@ -1,3 +1,5 @@
+import Order from "../models/order";
+
 const ORDERS_BASE_URL = "https://rn-shop-de6c3.firebaseio.com/orders";
 const USER_ID = "u1";
 
@@ -28,8 +30,19 @@ export const addOrder = async (order) => {
 /**
  * Fetch all of the orders from the server for a given user.
  * @async
- * @returns {array} Returns an array of Products
+ * @param {string} userId The user id associated to the orders.
+ * @returns {array} Returns an array of Orders
  */
-export const fetchProducts = async () => {
-  return null;
+export const fetchOrders = async (userId) => {
+  const response = await fetch(`${ORDERS_BASE_URL}/${userId}.json`);
+  if (!response.ok) {
+    throw new Error("Something went wrong!");
+  }
+  const responseData = await response.json();
+
+  return Object.keys(responseData || {}).map((key) => {
+    const { date, items, totalAmount } = responseData[key];
+
+    return new Order(key, items, totalAmount, new Date(date));
+  });
 };
