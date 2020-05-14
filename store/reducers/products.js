@@ -1,4 +1,4 @@
-import { ADD_PRODUCT, DELETE_PRODUCT, SET_PRODUCTS, UPDATE_PRODUCT } from "../actions/products";
+import { ADD_PRODUCT, DELETE_PRODUCT, GET_PRODUCTS, UPDATE_PRODUCT } from "../actions/products";
 
 const initialState = {
   availableProducts: [],
@@ -26,7 +26,7 @@ export default (state = initialState, action) => {
         userProducts: availableProducts.filter((product) => product.ownerId === "u1"),
       };
     }
-    case SET_PRODUCTS: {
+    case GET_PRODUCTS: {
       const fetchedProducts = action.products;
       return {
         ...state,

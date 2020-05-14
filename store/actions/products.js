@@ -2,7 +2,7 @@ import api from "../../api";
 
 export const ADD_PRODUCT = "ADD_PRODUCT";
 export const DELETE_PRODUCT = "DELETE_PRODUCT";
-export const SET_PRODUCTS = "SET_PRODUCTS";
+export const GET_PRODUCTS = "GET_PRODUCTS";
 export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
 
 export const addProduct = (product) => {
@@ -33,7 +33,7 @@ export const fetchProducts = () => {
 
     dispatch({
       products,
-      type: SET_PRODUCTS,
+      type: GET_PRODUCTS,
     });
   };
 };
