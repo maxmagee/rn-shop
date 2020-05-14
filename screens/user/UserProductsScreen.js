@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Alert, Button, FlatList, StyleSheet, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,20 +14,34 @@ import * as productActions from "../../store/actions/products";
 
 const UserProductsScreen = (props) => {
   const { navigation } = props;
+  const [deleteError, setDeleteError] = useState();
   const userProducts = useSelector((state) => state.products.userProducts);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (deleteError) {
+      Alert.alert("Error", deleteError, [{ text: "Okay" }]);
+    }
+  }, [deleteError]);
 
   const editHandler = (product) => {
     navigation.navigate("EditProduct", { product });
   };
 
+  const dispatchDeleteAction = async (product) => {
+    try {
+      await dispatch(productActions.deleteProduct(product));
+    } catch (err) {
+      setDeleteError(err.message);
+    }
+  };
+
   const deleteHandler = (product) => {
+    setDeleteError(null);
     Alert.alert("Are you sure?", "Do you really want to delete this item?", [
       { style: "default", text: "No" },
       {
-        onPress: () => {
-          dispatch(productActions.deleteProduct(product));
-        },
+        onPress: dispatchDeleteAction.bind(null, product),
         style: "destructive",
         text: "Yes",
       },

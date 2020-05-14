@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useReducer } from "react";
+import React, { useCallback, useEffect, useReducer, useState } from "react";
 import PropTypes from "prop-types";
-import { ScrollView, StyleSheet, View, Alert } from "react-native";
+import { ActivityIndicator, Alert, ScrollView, StyleSheet, View } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useDispatch } from "react-redux";
 
@@ -9,6 +9,7 @@ import CustomTextInput from "../../components/ui/CustomTextInput";
 
 import * as productActions from "../../store/actions/products";
 import Product from "../../models/product";
+import colors from "../../constants/colors";
 
 const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
 
@@ -43,6 +44,8 @@ const formReducer = (state, action) => {
 const EditProductScreen = (props) => {
   const { navigation } = props;
   const product = navigation.getParam("product");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
   const dispatch = useDispatch();
 
   const [formState, dispatchFormState] = useReducer(formReducer, {
@@ -61,7 +64,13 @@ const EditProductScreen = (props) => {
     },
   });
 
-  const saveHandler = useCallback(() => {
+  useEffect(() => {
+    if (error) {
+      Alert.alert("Error", error, [{ text: "Okey" }]);
+    }
+  }, [error]);
+
+  const saveHandler = useCallback(async () => {
     if (!formState.formIsValid) {
       Alert.alert("Invalid Input", "Please provide a valid value for each form field.", [
         { text: "Okay" },
@@ -71,28 +80,35 @@ const EditProductScreen = (props) => {
 
     const { title, imageUrl, price, description } = formState.inputValues;
 
-    if (product) {
-      product.title = title;
-      product.imageUrl = imageUrl;
-      product.description = description;
+    setIsLoading(true);
+    setError(null);
+    try {
+      if (product) {
+        product.title = title;
+        product.imageUrl = imageUrl;
+        product.description = description;
 
-      dispatch(productActions.updateProduct(product));
-    } else {
-      const newPriceFixed = parseFloat(price).toFixed(2);
-      const newProduct = new Product(
-        new Date().toString(),
-        "u1",
-        title,
-        imageUrl,
-        description,
-        +newPriceFixed
-      );
+        await dispatch(productActions.updateProduct(product));
+      } else {
+        const newPriceFixed = parseFloat(price).toFixed(2);
+        const newProduct = new Product(
+          new Date().toString(),
+          "u1",
+          title,
+          imageUrl,
+          description,
+          +newPriceFixed
+        );
 
-      dispatch(productActions.addProduct(newProduct));
+        await dispatch(productActions.addProduct(newProduct));
+      }
+      navigation.goBack();
+    } catch (err) {
+      setError(err.message);
     }
 
-    navigation.goBack();
-  }, [dispatch, product, formState]);
+    setIsLoading(false);
+  }, [dispatch, product, formState, error]);
 
   useEffect(() => {
     navigation.setParams({ saveHandler });
@@ -123,6 +139,14 @@ const EditProductScreen = (props) => {
       value: text,
     });
   };
+
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color={colors.primary} />
+      </View>
+    );
+  }
 
   return (
     <ScrollView style={styles.screen}>
@@ -192,11 +216,15 @@ EditProductScreen.propTypes = {
 EditProductScreen.defaultProps = {};
 
 const styles = StyleSheet.create({
+  centered: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+  },
   form: {
     backgroundColor: "white",
     margin: 20,
   },
-
   screen: {
     backgroundColor: "white",
   },

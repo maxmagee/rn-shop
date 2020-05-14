@@ -33,9 +33,13 @@ export const addProduct = async (product) => {
  * @param {Product} product The Product to delete from the server
  */
 export const deleteProduct = async (product) => {
-  await fetch(`${PRODUCTS_BASE_URL}/${product.id}.json`, {
+  const response = await fetch(`${PRODUCTS_BASE_URL}/${product.id}.json`, {
     method: "DELETE",
   });
+
+  if (!response.ok) {
+    throw new Error("Something went wrong");
+  }
 };
 
 /**
@@ -64,7 +68,7 @@ export const fetchProducts = async () => {
  */
 export const updateProduct = async (product) => {
   const { description, id, imageUrl, title } = product;
-  await fetch(`${PRODUCTS_BASE_URL}/${id}.json`, {
+  const response = await fetch(`${PRODUCTS_BASE_URL}/${id}.json`, {
     body: JSON.stringify({
       description,
       imageUrl,
@@ -75,4 +79,8 @@ export const updateProduct = async (product) => {
     },
     method: "PATCH",
   });
+
+  if (!response.ok) {
+    throw new Error("Something went wrong");
+  }
 };
