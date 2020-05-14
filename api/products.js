@@ -5,7 +5,7 @@ const PRODUCTS_BASE_URL = "https://rn-shop-de6c3.firebaseio.com/products";
 /**
  * Add a Product to the server.
  * @async
- * @param {string} product - The product to add to the server
+ * @param {Product} product - The product to add to the server
  * @returns {string} Key value of product created
  */
 export const addProduct = async (product) => {

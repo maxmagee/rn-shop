@@ -8,6 +8,7 @@ import DefaultText from "../../components/ui/DefaultText";
 import colors from "../../constants/colors";
 import * as cartActions from "../../store/actions/cart";
 import * as orderActions from "../../store/actions/orders";
+import Order from "../../models/order";
 
 const CartScreen = () => {
   const renderCartItem = (itemData) => {
@@ -37,7 +38,8 @@ const CartScreen = () => {
   });
 
   const orderNowHandler = () => {
-    dispatch(orderActions.addOrder(cartItems, cartTotalAmount));
+    const newOrder = new Order(new Date().toString(), cartItems, cartTotalAmount, new Date());
+    dispatch(orderActions.addOrder(newOrder));
     dispatch(cartActions.clearCart());
   };
 
