@@ -16,12 +16,13 @@ const USER_ID = "u1";
 const OrdersScreen = (props) => {
   const { navigation } = props;
   const [isLoading, setIsLoading] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [fetchError, setFetchError] = useState(null);
   const orders = useSelector((state) => state.orders.orders);
   const dispatch = useDispatch();
 
   const loadOrders = useCallback(async () => {
-    setIsLoading(true);
+    setIsRefreshing(true);
     setFetchError(null);
 
     try {
@@ -30,11 +31,14 @@ const OrdersScreen = (props) => {
       setFetchError(err.message);
     }
 
-    setIsLoading(false);
+    setIsRefreshing(false);
   }, [dispatch, setIsLoading, setFetchError]);
 
   useEffect(() => {
-    loadOrders();
+    setIsLoading(true);
+    loadOrders().then(() => {
+      setIsLoading(false);
+    });
   }, [dispatch, loadOrders]);
 
   useEffect(() => {
@@ -82,6 +86,8 @@ const OrdersScreen = (props) => {
       data={orders}
       keyExtractor={(item) => item.id}
       renderItem={renderOrderItem}
+      onRefresh={loadOrders}
+      refreshing={isRefreshing}
     />
   );
 };

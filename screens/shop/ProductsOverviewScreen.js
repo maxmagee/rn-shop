@@ -17,25 +17,27 @@ const ProductsOverviewScreen = (props) => {
   const { navigation } = props;
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [fetchError, setFetchError] = useState(null);
   const products = useSelector((state) => state.products.availableProducts);
   const dispatch = useDispatch();
 
   const loadProducts = useCallback(async () => {
-    setIsLoading(true);
     setFetchError(null);
-
+    setIsRefreshing(true);
     try {
       await dispatch(productsActions.fetchProducts());
     } catch (err) {
       setFetchError(err.message);
     }
-
-    setIsLoading(false);
+    setIsRefreshing(false);
   }, [dispatch, setIsLoading, setFetchError]);
 
   useEffect(() => {
-    loadProducts();
+    setIsLoading(true);
+    loadProducts().then(() => {
+      setIsLoading(false);
+    });
   }, [dispatch, loadProducts]);
 
   useEffect(() => {
@@ -111,6 +113,8 @@ const ProductsOverviewScreen = (props) => {
       data={products}
       keyExtractor={(item) => item.id}
       renderItem={renderProduct}
+      onRefresh={loadProducts}
+      refreshing={isRefreshing}
     />
   );
 };
